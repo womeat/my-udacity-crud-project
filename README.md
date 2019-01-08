@@ -18,16 +18,120 @@ google_api_python_client==1.7.7
 ```
 - Python
 - pip
+- Port 5000 available (or change it in the app.py)
 
 ## Installation
 1. Clone the repository 
+```
+$ git clone git@github.com:womeat/my-udacity-crud-project.git
+```
+2. cd into the directory `my-udacity-crud-project` and install the requirements
+```
+$ cd my-udacity-crud-project
+$ sudo pip install -r requirements.txt
+```
 
-
-## Steps to setup
-1. Clone repo
-2. `cd best_tacos`
-3. Setup database
+3. Create the database `best_tacos.db`
 ```
 $ python database_setup.py
 ```
+4. Add your valid credentials to use Google as authentication provider in the file `client_secret.json` 
+```
+{"web":
+  {
+    "client_id":"XXXXXXX",
+    "client_secret":"XXXXXXX",
+    "project_id":"mymenuapp",
+    "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+    "token_uri":"https://www.googleapis.com/oauth2/v3/token",
+    "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+    "javascript_origins":["http://localhost:5000"],
+    "redirect_uris":["https://localhost:5000/callback","http://localhost:5000/callback"]
+    }
+  }
+```
+5. Add your valid credentials to use Facebook as authentication provider in the file `fb_client_secrets.json` 
+```
+{
+  "web": {
+    "app_id": "XXXXXXX",
+    "app_secret": "XXXXXXX"
+  }
+}
+```
+6. Initialize the database with some sample data
+```
+$ python lotsoftacos.py
+```
 
+## Usage
+
+1. Start the app
+```
+$ python app.py
+```
+
+2. Open your browser with the following url [http://localhost:5000](http://localhost:5000)
+
+You can perform the following operations:
+* Login
+* Register for an account
+* Create/Edit/Delete a Place
+* Add/Edit/Delete tacos to a Place
+
+## API
+
+The following API endpoints are available and basic authentication is required
+- Query places
+`http://localhost:5000/places/JSON`
+Example:
+```
+$ curl -u 'foobar@example.com:foobar' http://localhost:5000/places/JSON
+{
+  "Places": [
+    {
+      "id": 1,
+      "name": "Metro Balderas 1",
+      "rate": {
+        "id": 2,
+        "rate": 1
+      }
+    }
+  ]
+}
+```
+- Query a place
+`http://localhost:5000/places/<place_id>/JSON`
+Example:
+```
+$ curl -u 'foobar@example.com:foobar' http://localhost:5000/places/1/JSON
+{
+  "id": 1,
+  "name": "Metro Balderas 1",
+  "rate": {
+    "id": 2,
+    "rate": 1
+  }
+}
+```
+- Query tacos per place
+`http://localhost:5000/places/<place_id>/tacos/JSON`
+Example:
+```
+$ curl -u 'foobar@example.com:foobar' http://localhost:5000/places/1/tacos/JSON
+{
+  "Tacos": [
+    {
+      "description": "Marinated pork with corn tortilla",
+      "id": 1,
+      "meatType": {
+        "id": 1,
+        "name": "Pork"
+      },
+      "name": "Pastor",
+      "picture": "http://zonaguadalajara.com/wp-content/uploads/2015/10/Tacos-al-Pastor-Jalisco.jpg",
+      "price": "6.50"
+    }
+  ]
+}
+```

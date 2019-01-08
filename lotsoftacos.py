@@ -26,9 +26,9 @@ User1 = User(name="Robo Barista", email="tinnyTim@udacity.com",
 session.add(User1)
 session.commit()
 
-user2 = User(email='admin@positos.com',
-             name='Positos')
-user2.hash_password('admin')
+user2 = User(email='foobar@example.com',
+             name='Sample user')
+user2.hash_password('foobar')
 session.add(user2)
 session.commit()
 
